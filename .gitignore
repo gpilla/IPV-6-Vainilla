@@ -1,0 +1,7 @@
+.classpath
+.project
+.settings/
+.gitconfig
+*~
+target/*
+/target
