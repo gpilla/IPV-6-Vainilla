@@ -8,7 +8,7 @@ import java.util.List;
 import com.uqbar.vainilla.events.EventQueue;
 import com.uqbar.vainilla.events.GameEvent;
 
-public class GameScene {
+public abstract class GameScene {
 
 	private Game game;
 	private List<GameComponent<?>> components;
@@ -81,10 +81,13 @@ public class GameScene {
 	// ****************************************************************
 
 	public void onSetAsCurrent() {
+		this.initializeComponents();
 		for(GameComponent<?> component : this.components) {
 			component.onSceneActivated();
 		}
 	}
+
+	abstract protected void initializeComponents();
 
 	public void pushEvent(GameEvent event) {
 		this.getEventQueue().pushEvent(event);
