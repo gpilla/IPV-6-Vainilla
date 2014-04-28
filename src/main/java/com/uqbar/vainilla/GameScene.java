@@ -87,7 +87,7 @@ public abstract class GameScene {
 		}
 	}
 
-	abstract private void initializeComponents();
+	abstract protected void initializeComponents();
 
 	public void pushEvent(GameEvent event) {
 		this.getEventQueue().pushEvent(event);
