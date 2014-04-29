@@ -19,14 +19,14 @@ public class Vector2D {
 
 	@Override
 	public String toString() {
-		return "("+ x + "," + y + ")";
+		return "("+ this.x + "," + this.y + ")";
 	}
 
 	public double getModule() {
 		if(this.module < 0) {
-			this.module = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+			this.module = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
 		}
-		return module;
+		return this.module;
 	}
 	
 	public Vector2D asVersor(){
@@ -35,7 +35,7 @@ public class Vector2D {
 	}
 	
 	public Vector2D producto(double valor){
-		return new Vector2D(x * valor , y * valor);
+		return new Vector2D(this.x * valor , this.y * valor);
 	}
 
 	public Vector2D suma(Vector2D vector2d) {
@@ -43,10 +43,10 @@ public class Vector2D {
 	}
 	
 	public double getX() {
-		return x;
+		return this.x;
 	}
 	public double getY() {
-		return y;
+		return this.y;
 	}
 
 	@Override
@@ -54,11 +54,11 @@ public class Vector2D {
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits(module);
+		temp = Double.doubleToLongBits(this.module);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(x);
+		temp = Double.doubleToLongBits(this.x);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(y);
+		temp = Double.doubleToLongBits(this.y);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
@@ -69,17 +69,24 @@ public class Vector2D {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (this.getClass() != obj.getClass())
 			return false;
 		Vector2D other = (Vector2D) obj;
-		if (Double.doubleToLongBits(module) != Double
+		if (Double.doubleToLongBits(this.module) != Double
 				.doubleToLongBits(other.module))
 			return false;
-		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
+		if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x))
 			return false;
-		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
+		if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y))
 			return false;
 		return true;
 	}
 
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
 }
