@@ -18,15 +18,9 @@ public class Vector2D {
 	}
 	
 	public double angle(){
-		if(this.getY()==0){
-			if(this.getX()>=0){
-				return Math.PI;
-			}else{
-				return 0;
-			}
-		}
 
-		return Math.atan(this.getY()/this.getX());
+
+		return Math.atan2(this.getY(),this.getX());
 		
 	}
 	
