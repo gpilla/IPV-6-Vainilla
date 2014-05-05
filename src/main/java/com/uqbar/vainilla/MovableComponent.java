@@ -1,5 +1,6 @@
 package com.uqbar.vainilla;
 
+import com.uqbar.vainilla.appearances.Appearance;
 import com.uqbar.vainilla.utils.Vector2D;
 
 public abstract class MovableComponent<SceneType extends GameScene> extends GameComponent<SceneType>{
@@ -8,7 +9,13 @@ public abstract class MovableComponent<SceneType extends GameScene> extends Game
 	private double acceleration=0;
 	private Vector2D vector;
 	
+	public MovableComponent(){
+		super();
+	}
 	
+	public MovableComponent(Appearance appearance, double x, double y) {
+		super(appearance,x,y);
+	}
 	
 	public double getSpeed() {
 		return speed;

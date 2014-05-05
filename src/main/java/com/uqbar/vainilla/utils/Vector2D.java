@@ -16,6 +16,25 @@ public class Vector2D {
 		this.y = y;
 		this.module = -1;
 	}
+	
+	public double angle(){
+		if(this.getY()==0){
+			if(this.getX()>=0){
+				return Math.PI;
+			}else{
+				return 0;
+			}
+		}
+
+		return Math.atan(this.getY()/this.getX());
+		
+	}
+	
+	public void rotate(double deltaRadians){
+		double currentAngle = this.angle();
+		this.setX(Math.cos(currentAngle + deltaRadians));
+		this.setY(Math.sin(currentAngle + deltaRadians));
+	}
 
 	@Override
 	public String toString() {

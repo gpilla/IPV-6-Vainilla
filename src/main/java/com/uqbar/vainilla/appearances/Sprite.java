@@ -90,7 +90,19 @@ public class Sprite extends SimpleAppearance<Sprite> {
 				(int) this.getHeight(), this.getImage().getType());
 
 		Graphics2D graphics = newImage.createGraphics();
-		graphics.rotate(radians, this.getWidth() / 2, this.getHeight() / 2);
+		graphics.rotate(radians,this.getWidth()/2,this.getHeight()/2);
+		graphics.drawImage(this.getImage(), null, 0, 0);
+		graphics.dispose();
+
+		return new Sprite(newImage);
+	}
+	
+	public Sprite rotate(double radians, double dx, double dy) {
+		BufferedImage newImage = new BufferedImage((int) this.getWidth(),
+				(int) this.getHeight(), this.getImage().getType());
+
+		Graphics2D graphics = newImage.createGraphics();
+		graphics.rotate(radians,dx,dy);
 		graphics.drawImage(this.getImage(), null, 0, 0);
 		graphics.dispose();
 
