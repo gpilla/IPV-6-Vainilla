@@ -17,6 +17,11 @@ public class Vector2D {
 		this.module = -1;
 	}
 	
+	public Vector2D clone()
+	{
+		return new Vector2D(this.getX(), this.getY());
+	}
+	
 	public double angle(){
 
 
