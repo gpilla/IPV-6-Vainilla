@@ -5,7 +5,7 @@ package com.uqbar.vainilla.utils;
  * @author leo
  *
  */
-public class Vector2D {
+public class Vector2D implements Cloneable{
 
 	private double x;
 	private double y;
@@ -17,9 +17,13 @@ public class Vector2D {
 		this.module = -1;
 	}
 	
-	public Vector2D clone()
-	{
-		return new Vector2D(this.getX(), this.getY());
+	public Vector2D copy() {
+		try {
+			return (Vector2D) this.clone();
+		}
+		catch(CloneNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public double angle(){
