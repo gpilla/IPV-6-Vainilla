@@ -1,10 +1,5 @@
 package com.uqbar.vainilla.utils;
 
-/**
- * inmutable
- * @author leo
- *
- */
 public class Vector2D implements Cloneable{
 
 	private double x;
@@ -14,7 +9,7 @@ public class Vector2D implements Cloneable{
 	public Vector2D(double x, double y) {
 		this.x = x;
 		this.y = y;
-		this.module = -1;
+		this.module =Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
 	}
 	
 	public Vector2D copy() {
@@ -27,10 +22,7 @@ public class Vector2D implements Cloneable{
 	}
 	
 	public double angle(){
-
-
 		return Math.atan2(this.getY(),this.getX());
-		
 	}
 	
 	public void rotate(double deltaRadians){
@@ -45,12 +37,11 @@ public class Vector2D implements Cloneable{
 	}
 
 	public double getModule() {
-		if(this.module < 0) {
-			this.module = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
-		}
 		return this.module;
 	}
-	
+	public void setModule(double module) {
+		this.module = module; 
+	}
 	public Vector2D asVersor(){
 		//TODO, usar un delta?
 		return this.getModule() != 1 ? new Vector2D(this.x/this.getModule(), this.y/this.getModule()) : this;
@@ -67,6 +58,7 @@ public class Vector2D implements Cloneable{
 	public double getX() {
 		return this.x;
 	}
+
 	public double getY() {
 		return this.y;
 	}
