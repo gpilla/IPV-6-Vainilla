@@ -1,6 +1,7 @@
 package com.uqbar.vainilla;
 
 import java.awt.Canvas;
+import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
@@ -95,8 +96,9 @@ public class GamePlayer extends Canvas implements Runnable {
 	}
 
 	protected void hideMouse() {
-		Image image = this.createImage(new MemoryImageSource(16, 16, new int[16 * 16], 0, 16));
-		this.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 0), ""));
+//		Image image = this.createImage(new MemoryImageSource(16, 16, new int[16 * 16], 0, 16));
+//		this.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 0), ""));
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
 	// ****************************************************************

@@ -3,8 +3,13 @@ package com.uqbar.vainilla;
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D.Double;
+
 import com.uqbar.vainilla.appearances.Appearance;
 import com.uqbar.vainilla.appearances.Invisible;
+import com.uqbar.vainilla.appearances.Rectangle;
+import com.uqbar.vainilla.colissions.CollisionDetector;
+import com.uqbar.vainilla.utils.ResourceUtil;
 
 public class GameComponent<SceneType extends GameScene> {
 
@@ -176,6 +181,48 @@ public class GameComponent<SceneType extends GameScene> {
 
 	protected void setDestroyPending(boolean destroyPending) {
 		this.destroyPending = destroyPending;
+	}
+	
+	// --------------------------------------------------
+	// Metodos auxiliares
+	// (Agregados)
+	// --------------------------------------------------
+	public double getHeight() {
+		return this.getAppearance().getHeight();
+	}
+
+	public double getWidth() {
+		return this.getAppearance().getWidth();
+	}
+
+	public Double getCenter() {
+		double x = this.getX() + this.getWidth() / 2;
+		double y = this.getY() + this.getHeight() / 2;
+		return new Double(x, y);
+	}
+	
+	public double getAbsoluteX() {
+		return this.getX() + this.getWidth();
+	}
+	
+	public double getAbsoluteY() {
+		return this.getY() + this.getHeight();
+	}
+	
+	// Collision methods
+	public boolean collidesWith(Double point) {
+		if( this.appearance.getClass() == Rectangle.class ) {
+			return CollisionDetector.INSTANCE.collidesPointAgainstSquare(point.getX(), point.getY(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
+		}
+		return false;
+	}
+	
+	protected double getIntPropertyFromConfig(String resource) {
+		return ResourceUtil.getResourceInt(this.getClass().getSimpleName() + "." + resource);
+	}
+	
+	protected String getStringPropertyFromConfig(String resource) {
+		return ResourceUtil.getResourceString(this.getClass().getSimpleName() + "." + resource);
 	}
 
 }

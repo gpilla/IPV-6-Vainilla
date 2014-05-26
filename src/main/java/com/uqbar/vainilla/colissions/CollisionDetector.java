@@ -120,4 +120,11 @@ public class CollisionDetector {
 		return 0.5 * Math.abs((a * d) - (b * c));
 	}
 
+	public boolean collidesPointAgainstSquare(double x, double y, double sx, double sy, double width, double height) {
+		double sx2 = sx + width;
+		double sy2 = sy + height;
+		return (x >= sx && x <= sx2) &&	(y >= sy && y <= sy2);
+		
+	}
+
 }

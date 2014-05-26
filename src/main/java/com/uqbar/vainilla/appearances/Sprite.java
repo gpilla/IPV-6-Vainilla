@@ -4,9 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 

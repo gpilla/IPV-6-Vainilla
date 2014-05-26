@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
 import com.uqbar.vainilla.events.EventQueue;
 import com.uqbar.vainilla.events.GameEvent;
 
@@ -103,11 +104,11 @@ public abstract class GameScene {
 
 		DeltaState state = this.getEventQueue().takeState(delta);
 
+		
 		for(GameComponent<?> component : new ArrayList<GameComponent<?>>(this.getComponents())) {
 			if(component.isDestroyPending()) {
 				this.removeComponent(component);
-			}
-			else {
+			} else {
 				component.update(state);
 				component.render(graphics);
 			}
@@ -153,6 +154,10 @@ public abstract class GameScene {
 		for(GameComponent<?> component : components) {
 			this.removeComponent(component);
 		}
+	}
+	
+	public void clearComponents() {
+		this.getComponents().clear();
 	}
 
 	// ****************************************************************
