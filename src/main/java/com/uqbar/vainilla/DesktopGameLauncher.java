@@ -1,5 +1,6 @@
 package com.uqbar.vainilla;
 
+import java.awt.Canvas;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.security.InvalidParameterException;
@@ -73,6 +74,10 @@ public class DesktopGameLauncher extends JFrame {
 	// ****************************************************************
 
 	protected GamePlayer getPlayer() {
+		return this.player;
+	}
+	
+	public Canvas getPlayerCanvas() {
 		return this.player;
 	}
 

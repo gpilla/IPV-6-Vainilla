@@ -3,11 +3,14 @@ package com.uqbar.vainilla;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
+import javax.swing.JFrame;
+
 import com.uqbar.vainilla.events.GameEvent;
 
 public abstract class Game {
 
 	private GameScene currentScene;
+	private static DesktopGameLauncher gameLauncher;
 
 	// ****************************************************************
 	// ** CONSTRUCTORS
@@ -75,6 +78,15 @@ public abstract class Game {
 		scene.setGame(this);
 
 		scene.onSetAsCurrent();
+	}
+
+
+	public static void setGameLauncher(DesktopGameLauncher gameLauncher) {
+		Game.gameLauncher = gameLauncher;
+	}
+	
+	public static DesktopGameLauncher getGameLauncher() {
+		return gameLauncher;
 	}
 
 	

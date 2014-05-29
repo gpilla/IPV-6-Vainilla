@@ -7,7 +7,13 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.MemoryImageSource;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import com.uqbar.vainilla.events.EventAdapter;
+import com.uqbar.vainilla.utils.ClassLoaderResourcesProvider;
+import com.uqbar.vainilla.utils.ResourceProvider;
 
 public class GamePlayer extends Canvas implements Runnable {
 
@@ -31,7 +37,7 @@ public class GamePlayer extends Canvas implements Runnable {
 		this.setIgnoreRepaint(true);
 		this.setFocusTraversalKeysEnabled(false);
 		this.setFocusable(true);
-		this.hideMouse();
+		//this.hideMouse();
 	}
 
 	// ****************************************************************
@@ -96,9 +102,21 @@ public class GamePlayer extends Canvas implements Runnable {
 	}
 
 	protected void hideMouse() {
-//		Image image = this.createImage(new MemoryImageSource(16, 16, new int[16 * 16], 0, 16));
-//		this.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 0), ""));
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		//Image image = this.createImage(new MemoryImageSource(16, 16, new int[16 * 16], 0, 16));
+		ResourceProvider provider = new ClassLoaderResourcesProvider();
+		try {
+			Image image = ImageIO.read(provider.getResource("images/shoot.png"));
+			this.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 0), ""));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//this.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(cursor, hotSpot, name))
+		//this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
 	// ****************************************************************

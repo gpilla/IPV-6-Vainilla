@@ -69,7 +69,6 @@ public class Animation implements Appearance {
 
 	protected void advance() {
 		this.setCurrentIndex(this.getCurrentIndex() + 1);
-		System.out.println(this.getCurrentIndex());
 		if(this.getCurrentIndex() >= this.getSprites().length) {
 			this.setCurrentIndex(0);
 		}
