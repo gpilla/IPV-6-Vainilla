@@ -3,8 +3,6 @@ package com.uqbar.vainilla;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
-import javax.swing.JFrame;
-
 import com.uqbar.vainilla.events.GameEvent;
 
 public abstract class Game {
@@ -88,6 +86,4 @@ public abstract class Game {
 	public static DesktopGameLauncher getGameLauncher() {
 		return gameLauncher;
 	}
-
-	
 }
