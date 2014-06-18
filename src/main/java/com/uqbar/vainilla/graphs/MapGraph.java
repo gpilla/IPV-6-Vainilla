@@ -1,14 +1,21 @@
 package com.uqbar.vainilla.graphs;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D.Double;
+import java.awt.image.BufferedImage;
 
-public class MapGraph<T> {
+import javax.imageio.ImageIO;
+
+public class MapGraph<T extends Valuable> {
 	private Node<T> matrix[][];
 	private int rows = 0;
 	private int columns = 0;
@@ -18,6 +25,43 @@ public class MapGraph<T> {
 	
 	public MapGraph(){
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public MapGraph(String coloredImagePath){
+		BufferedImage coloredImage;
+		try {
+			coloredImage = ImageIO.read(new File(coloredImagePath));
+			this.setRows(coloredImage.getHeight());
+			this.setColumns(coloredImage.getWidth());
+			this.setHeight(coloredImage.getHeight());
+			this.setWidth(coloredImage.getWidth());
+			this.matrix = (Node<T>[][])Array.newInstance(Node.class, this.getRows(),this.getColumns());
+			
+			for(int row = 0;row<this.getRows();row++){
+				for(int col=0; col<this.getColumns();col++){
+					int rgbColor = coloredImage.getRGB(col, row);
+					T pixelValuable = (T)new PixelValuable(rgbColor * -1);
+					Node<T> node = new Node<T>(pixelValuable, row + "-" + col);
+					this.getMatrix()[row][col] = node;
+				}
+			}
+			this.calcAdjancencies();
+			
+//			BufferedImage blackNWhite = new BufferedImage(coloredImage.getWidth(),coloredImage.getHeight(),BufferedImage.TYPE_BYTE_BINARY);
+//			
+//			Graphics2D graphics = blackNWhite.createGraphics();
+//			graphics.drawImage(coloredImage, 0, 0, null);
+//			try {
+//				//ImageIO.write(blackNWhite, "png", new File("/home/nico/newBlackNWhite.png"));
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
 	public MapGraph(int rows, int columns, double height, double width){
@@ -48,7 +92,9 @@ public class MapGraph<T> {
 		{
 			for(int j=0; j<this.getColumns(); j++){
 				Node<T> node = this.getMatrix()[i][j];
-				node.cleanAdjacencies();
+				if(node!=null){
+					node.cleanAdjacencies();
+				}
 			}
 		}
 	
@@ -56,6 +102,9 @@ public class MapGraph<T> {
 		{
 			for(int j=0; j<this.getColumns(); j++){
 				Node<T> node = this.getMatrix()[i][j];
+				if(i==70 && j==70){
+					node = this.getMatrix()[i][j];
+				}
 				if(j>0 && !this.isCellOccupied(i,j-1)){
 					node.addAdjancency(this.getMatrix()[i][j-1]);
 				}
@@ -73,7 +122,7 @@ public class MapGraph<T> {
 	}
 
 	private boolean isCellOccupied(int i, int j) {
-		return this.getMatrix()[i][j]!=null && this.getMatrix()[i][j].getElement()!=null; 
+		return this.getMatrix()[i][j]!=null && this.getMatrix()[i][j].getElement()!=null && this.getMatrix()[i][j].getElement().value()>1;
 	}
 
 	private void computePaths(Node<T> sourceNode){

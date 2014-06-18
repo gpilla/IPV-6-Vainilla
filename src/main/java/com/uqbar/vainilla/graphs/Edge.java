@@ -1,7 +1,7 @@
 package com.uqbar.vainilla.graphs;
 
 
-public class Edge <T> {
+public class Edge <T extends Valuable> {
 	  private final String id; 
 	  private final Node<T> destination;
 	  private final int weight; 

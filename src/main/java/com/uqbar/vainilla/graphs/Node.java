@@ -4,7 +4,7 @@ package com.uqbar.vainilla.graphs;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Node<T> implements Comparable<Node<T>>{
+public class Node<T extends Valuable> implements Comparable<Node<T>>{
 	private T element;
 	private String keyName="";
 	private List<Edge<T>> adjancencies = new ArrayList<Edge<T>>();
@@ -25,7 +25,15 @@ public class Node<T> implements Comparable<Node<T>>{
 	}
 	
 	public void addAdjancency(Node<T> node){
-		Edge<T> edge = new Edge<T>(this.getKeyName() + "->" + node.getKeyName() , node, 1);
+		
+		int value;
+		if(node!=null && node.getElement()!=null){
+			value = node.getElement().value();
+		}else{
+			value=1;
+		}
+		
+		Edge<T> edge = new Edge<T>(this.getKeyName() + "->" + node.getKeyName() , node, value);
 		this.getAdjancencies().add(edge);
 	}
 
