@@ -31,7 +31,7 @@ public class MapGraph<T extends Valuable> {
 	public MapGraph(String coloredImagePath){
 		BufferedImage coloredImage;
 		try {
-			coloredImage = ImageIO.read(new File(coloredImagePath));
+			coloredImage = ImageIO.read(this.getClass().getClassLoader().getResource(coloredImagePath));
 			this.setRows(coloredImage.getHeight());
 			this.setColumns(coloredImage.getWidth());
 			this.setHeight(coloredImage.getHeight());
@@ -48,22 +48,12 @@ public class MapGraph<T extends Valuable> {
 			}
 			this.calcAdjancencies();
 			
-//			BufferedImage blackNWhite = new BufferedImage(coloredImage.getWidth(),coloredImage.getHeight(),BufferedImage.TYPE_BYTE_BINARY);
-//			
-//			Graphics2D graphics = blackNWhite.createGraphics();
-//			graphics.drawImage(coloredImage, 0, 0, null);
-//			try {
-//				//ImageIO.write(blackNWhite, "png", new File("/home/nico/newBlackNWhite.png"));
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
 	
+
 	public MapGraph(int rows, int columns, double height, double width){
 		this.setRows(rows);
 		this.setColumns(columns);
@@ -170,6 +160,7 @@ public class MapGraph<T extends Valuable> {
 			return false;
 		}
 	}
+	
 	
 	public Node<T> obtainNode(double x, double y){
 		int col = this.obtainColNumber(x);
