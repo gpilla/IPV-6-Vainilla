@@ -10,6 +10,9 @@ public class Node<T extends Valuable> implements Comparable<Node<T>>{
 	private List<Edge<T>> adjancencies = new ArrayList<Edge<T>>();
 	private double minDistance = Double.POSITIVE_INFINITY;
 	private Node<T> previous;
+	private double row;
+	private double column;
+	private boolean visited = false;
 	
 	public Node(){
 		
@@ -17,6 +20,14 @@ public class Node<T extends Valuable> implements Comparable<Node<T>>{
 	
 	public Node(String keyName){
 		this.setKeyName(keyName);
+	}
+	
+	public Node(T element, int row, int column)
+	{
+		this.setElement(element);
+		this.setColumn(column);
+		this.setRow(row);
+		this.setKeyName(row + "-" + column);
 	}
 	
 	public Node(T element, String keyName){
@@ -88,6 +99,32 @@ public class Node<T extends Valuable> implements Comparable<Node<T>>{
 	public String toString(){
 		return this.getKeyName();
 	}
+
+	public double getRow() {
+		return row;
+	}
+
+	public void setRow(double row) {
+		this.row = row;
+	}
+
+	public double getColumn() {
+		return column;
+	}
+
+	public void setColumn(double column) {
+		this.column = column;
+	}
+
+	public boolean isVisited() {
+		return visited;
+	}
+
+	public void setVisited(boolean visited) {
+		this.visited = visited;
+	}
+
+	
 
 	
 }

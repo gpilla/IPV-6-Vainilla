@@ -20,7 +20,7 @@ public class MapGraphTest {
 	public void integration_LoadFromIMage(){
 		MapGraph<PixelValuable> mapGraph = new MapGraph<PixelValuable>("mapa1.png");
 		Node<PixelValuable> source = mapGraph.obtainNode(10, 10);
-		Node<PixelValuable> destination = mapGraph.obtainNode(31,72);
+		Node<PixelValuable> destination = mapGraph.obtainNode(41,36);
 		List<Node<PixelValuable>> path = mapGraph.getShortestPath(source, destination);
 		System.out.println(path);
 		assertTrue(mapGraph!=null);

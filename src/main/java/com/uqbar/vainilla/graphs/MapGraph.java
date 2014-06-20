@@ -15,6 +15,8 @@ import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 
+import com.uqbar.vainilla.utils.ClassLoaderResourcesProvider;
+
 public class MapGraph<T extends Valuable> {
 	private Node<T> matrix[][];
 	private int rows = 0;
@@ -31,7 +33,7 @@ public class MapGraph<T extends Valuable> {
 	public MapGraph(String coloredImagePath){
 		BufferedImage coloredImage;
 		try {
-			coloredImage = ImageIO.read(this.getClass().getClassLoader().getResource(coloredImagePath));
+			coloredImage = ImageIO.read(new ClassLoaderResourcesProvider().getResource(coloredImagePath));
 			this.setRows(coloredImage.getHeight());
 			this.setColumns(coloredImage.getWidth());
 			this.setHeight(coloredImage.getHeight());
@@ -42,13 +44,13 @@ public class MapGraph<T extends Valuable> {
 				for(int col=0; col<this.getColumns();col++){
 					int rgbColor = coloredImage.getRGB(col, row);
 					T pixelValuable = (T)new PixelValuable(rgbColor * -1);
-					Node<T> node = new Node<T>(pixelValuable, row + "-" + col);
+					Node<T> node = new Node<T>(pixelValuable, row,col);
 					this.getMatrix()[row][col] = node;
 				}
 			}
 			this.calcAdjancencies();
 			
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 	}
@@ -139,10 +141,15 @@ public class MapGraph<T extends Valuable> {
 	
     public List<Node<T>> getShortestPath(Node<T> source,Node<T> target)
     {
+    	source.setVisited(true);
     	this.computePaths(source);
         List<Node<T>> path = new ArrayList<Node<T>>();
-        for (Node<T> vertex = target; vertex != null; vertex = vertex.getPrevious())
-            path.add(vertex);
+        for (Node<T> vertex = target; vertex != null ; vertex = vertex.getPrevious()){
+        	if(vertex!=source && !vertex.isVisited()){
+        		path.add(vertex);
+        	}
+        }
+            
         Collections.reverse(path);
         return path;
     }
