@@ -11,7 +11,7 @@ import com.uqbar.vainilla.appearances.Rectangle;
 import com.uqbar.vainilla.colissions.CollisionDetector;
 import com.uqbar.vainilla.utils.ResourceUtil;
 
-public class GameComponent<SceneType extends GameScene> {
+public abstract class GameComponent<SceneType extends GameScene> {
 
 	private SceneType scene;
 	private Appearance appearance;
@@ -19,6 +19,8 @@ public class GameComponent<SceneType extends GameScene> {
 	private double y;
 	private int z;
 	private boolean destroyPending;
+	
+	//private ArrayList<GameComponentRule<?>> rules;
 
 	// ****************************************************************
 	// ** CONSTRUCTORS
@@ -129,6 +131,7 @@ public class GameComponent<SceneType extends GameScene> {
 
 	public void update(DeltaState deltaState) {
 		this.getAppearance().update(deltaState.getDelta());
+		//this.applyRules(deltaState);
 	}
 
 	// ****************************************************************
@@ -209,7 +212,10 @@ public class GameComponent<SceneType extends GameScene> {
 		return this.getY() + this.getHeight();
 	}
 	
+	// --------------------------------------------------------------------------
 	// Collision methods
+	// --------------------------------------------------------------------------
+	
 	public boolean collidesWith(Double point) {
 		if( this.appearance.getClass() == Rectangle.class ) {
 			return CollisionDetector.INSTANCE.collidesPointAgainstSquare(point.getX(), point.getY(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
@@ -224,5 +230,36 @@ public class GameComponent<SceneType extends GameScene> {
 	protected String getStringPropertyFromConfig(String resource) {
 		return ResourceUtil.getResourceString(this.getClass().getSimpleName() + "." + resource);
 	}
+	
+	// -------------------------------------------------
+	// Rules management
+	// -------------------------------------------------
+	
+//	protected ArrayList<GameComponentRule<?>> getRules() {
+//		return rules;
+//	}
+//
+//	protected void setRules(ArrayList<GameComponentRule<?>> rules) {
+//		this.rules = rules;
+//	}
+//	
+//	protected void addRule(GameComponentRule<?> rule) {
+//		this.getRules().add(rule);
+//	}
+//	
+//	protected void removeRule(GameComponentRule<?> rule) {
+//		this.getRules().remove(rule);
+//	}
+//	
+//	protected void initRules() {
+//		// Nothing yet.
+//	}
+	
+	//protected abstract void applyRules(DeltaState deltaState);
 
+	public void setPosition(Double spawnPoint) {
+		this.setX(spawnPoint.getX() - this.getHeight() / 2);
+		this.setY(spawnPoint.getY() - this.getWidth() / 2);
+	}
+	
 }
