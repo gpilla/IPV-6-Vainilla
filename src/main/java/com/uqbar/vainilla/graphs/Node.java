@@ -13,6 +13,10 @@ public class Node<T extends Valuable> implements Comparable<Node<T>>{
 	private double row;
 	private double column;
 	private boolean visited = false;
+	private boolean hasUpAdjacency = false;
+	private boolean hasDownAdjacency = false;
+	private boolean hasRightAdjacency = false;
+	private boolean hasLeftAdjacency = false;
 	
 	public Node(){
 		
@@ -122,6 +126,38 @@ public class Node<T extends Valuable> implements Comparable<Node<T>>{
 
 	public void setVisited(boolean visited) {
 		this.visited = visited;
+	}
+
+	public boolean isHasUpAdjacency() {
+		return hasUpAdjacency;
+	}
+
+	public void setHasUpAdjacency(boolean hasUpAdjacency) {
+		this.hasUpAdjacency = hasUpAdjacency;
+	}
+
+	public boolean isHasDownAdjacency() {
+		return hasDownAdjacency;
+	}
+
+	public void setHasDownAdjacency(boolean hasDownAdjacency) {
+		this.hasDownAdjacency = hasDownAdjacency;
+	}
+
+	public boolean isHasRightAdjacency() {
+		return hasRightAdjacency;
+	}
+
+	public void setHasRightAdjacency(boolean hasRightAdjacency) {
+		this.hasRightAdjacency = hasRightAdjacency;
+	}
+
+	public boolean isHasLeftAdjacency() {
+		return hasLeftAdjacency;
+	}
+
+	public void setHasLeftAdjacency(boolean hasLeftAdjacency) {
+		this.hasLeftAdjacency = hasLeftAdjacency;
 	}
 
 	

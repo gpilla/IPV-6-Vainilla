@@ -1,15 +1,11 @@
 package com.uqbar.vainilla.graphs;
 
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 
@@ -90,24 +86,30 @@ public class MapGraph<T extends Valuable> {
 			}
 		}
 	
-		for(int i=0; i<this.getRows(); i++)
+		for(int row=0; row<this.getRows(); row++)
 		{
-			for(int j=0; j<this.getColumns(); j++){
-				Node<T> node = this.getMatrix()[i][j];
-				if(i==70 && j==70){
-					node = this.getMatrix()[i][j];
+			for(int col=0; col<this.getColumns(); col++){
+				Node<T> node = this.getMatrix()[row][col];
+				
+				if(col==48 && row==81){
+					System.out.println("");
 				}
-				if(j>0 && !this.isCellOccupied(i,j-1)){
-					node.addAdjancency(this.getMatrix()[i][j-1]);
+
+				if(col>0 && !this.isCellOccupied(row,col-1)){
+					node.setHasLeftAdjacency(true);
+					node.addAdjancency(this.getMatrix()[row][col-1]);
 				}
-				if(i>0 && !this.isCellOccupied(i-1,j)){
-					node.addAdjancency(this.getMatrix()[i-1][j]);
+				if(row>0 && !this.isCellOccupied(row-1,col)){
+					node.setHasUpAdjacency(true);
+					node.addAdjancency(this.getMatrix()[row-1][col]);
 				}
-				if(j<columns-1 && !this.isCellOccupied(i,j+1)){
-					node.addAdjancency(this.getMatrix()[i][j+1]);
+				if(col<columns-1 && !this.isCellOccupied(row,col+1)){
+					node.setHasRightAdjacency(true);
+					node.addAdjancency(this.getMatrix()[row][col+1]);
 				}
-				if(i<rows-1 && !this.isCellOccupied(i+1,j)){
-					node.addAdjancency(this.getMatrix()[i+1][j]);
+				if(row<rows-1 && !this.isCellOccupied(row+1,col)){
+					node.setHasDownAdjacency(true);
+					node.addAdjancency(this.getMatrix()[row+1][col]);
 				}
 			}
 		}
@@ -117,7 +119,7 @@ public class MapGraph<T extends Valuable> {
 		return this.getMatrix()[i][j]!=null && this.getMatrix()[i][j].getElement()!=null && this.getMatrix()[i][j].getElement().value()>1;
 	}
 
-	private void computePaths(Node<T> sourceNode){
+	public void computePaths(Node<T> sourceNode){
 		PriorityQueue<Node<T>> nodeQueue = new PriorityQueue<Node<T>>();
 		sourceNode.setMinDistance(0);
 		nodeQueue.add(sourceNode);
@@ -141,11 +143,10 @@ public class MapGraph<T extends Valuable> {
 	
     public List<Node<T>> getShortestPath(Node<T> source,Node<T> target)
     {
-    	source.setVisited(true);
     	this.computePaths(source);
         List<Node<T>> path = new ArrayList<Node<T>>();
         for (Node<T> vertex = target; vertex != null ; vertex = vertex.getPrevious()){
-        	if(vertex!=source && !vertex.isVisited()){
+        	if(vertex!=source){
         		path.add(vertex);
         	}
         }
@@ -251,7 +252,5 @@ public class MapGraph<T extends Valuable> {
 
 	public void setMatrix(Node<T>[][] matrix) {
 		this.matrix = matrix;
-	}
-	
-	
+	}	
 }
