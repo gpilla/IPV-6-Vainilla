@@ -11,7 +11,7 @@ import com.uqbar.vainilla.appearances.Rectangle;
 import com.uqbar.vainilla.colissions.CollisionDetector;
 import com.uqbar.vainilla.utils.ResourceUtil;
 
-public abstract class GameComponent<SceneType extends GameScene> {
+public class GameComponent<SceneType extends GameScene> {
 
 	private SceneType scene;
 	private Appearance appearance;
