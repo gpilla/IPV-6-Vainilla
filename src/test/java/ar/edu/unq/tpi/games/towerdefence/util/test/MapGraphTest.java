@@ -20,7 +20,7 @@ public class MapGraphTest {
 	public void integration_LoadFromIMage(){
 		MapGraph<PixelValuable> mapGraph = new MapGraph<PixelValuable>("mapa1.png");
 		Node<PixelValuable> source = mapGraph.obtainNode(10, 10);
-		Node<PixelValuable> destination = mapGraph.obtainNode(31,72);
+		Node<PixelValuable> destination = mapGraph.obtainNode(41,36);
 		List<Node<PixelValuable>> path = mapGraph.getShortestPath(source, destination);
 		System.out.println(path);
 		assertTrue(mapGraph!=null);
@@ -154,21 +154,13 @@ public class MapGraphTest {
 	
 	@Test
 	public void addNode_WithExistentNode(){
-//		MapGraph<String> mapGraph = new MapGraph<String>(45,50,500,800);
-//		String expectedNodeElement = "NodeElement";
-//		mapGraph.addNode(25, 18, expectedNodeElement);
-//		boolean result = mapGraph.addNode(25, 18, expectedNodeElement);
-//		assertEquals(false, result);
+		MapGraph<PixelValuable> mapGraph = new MapGraph<PixelValuable>(45,50,500,800);
+		PixelValuable expectedNodeElement = new PixelValuable(10000);
+		mapGraph.addNode(25, 18, expectedNodeElement);
+		boolean result = mapGraph.addNode(25, 18, expectedNodeElement);
+		assertEquals(false, result);
 	}
 	
-	@Test
-	public void obtainPosition(){
-//		MapGraph<String> mapGraph = new MapGraph<String>(6,6,60,120);
-//		Double mousePosition = new Double(25, 45);
-//		Double expectedPosition = new Double(20, 40);
-//		Double actualPosition = mapGraph.obtainPosition(mousePosition);
-//		assertEquals(expectedPosition, actualPosition);
-		
-	}
+	
 	
 }
