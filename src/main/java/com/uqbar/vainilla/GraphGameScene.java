@@ -7,7 +7,7 @@ public abstract class GraphGameScene extends GameScene{
 
 	private MapGraph<Valuable> mapGraph;
 	
-	
+	public GraphGameScene(){}
 	
 	public GraphGameScene(String map){
 		this.setMapGraph(new MapGraph<Valuable>(map));

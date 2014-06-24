@@ -51,6 +51,29 @@ public class MapGraph<T extends Valuable> {
 		}
 	}
 	
+	public MapGraph(BufferedImage coloredImage){
+		try {
+			this.setRows(coloredImage.getHeight());
+			this.setColumns(coloredImage.getWidth());
+			this.setHeight(coloredImage.getHeight());
+			this.setWidth(coloredImage.getWidth());
+			this.matrix = (Node<T>[][])Array.newInstance(Node.class, this.getRows(),this.getColumns());
+			
+			for(int row = 0;row<this.getRows();row++){
+				for(int col=0; col<this.getColumns();col++){
+					int rgbColor = coloredImage.getRGB(col, row);
+					T pixelValuable = (T)new PixelValuable(rgbColor * -1);
+					Node<T> node = new Node<T>(pixelValuable, row,col);
+					this.getMatrix()[row][col] = node;
+				}
+			}
+			this.calcAdjancencies();
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+	
 
 	public MapGraph(int rows, int columns, double height, double width){
 		this.setRows(rows);
