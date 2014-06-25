@@ -4,8 +4,11 @@ package com.uqbar.vainilla.graphs;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.awt.Point;
 import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 
@@ -19,7 +22,7 @@ public class MapGraph<T extends Valuable> {
 	private int columns = 0;
 	private double width = 0;
 	private double height = 0;
-
+	private Map<Integer, List<Point>> colorsMap = new HashMap<Integer, List<Point>>();
 	
 	public MapGraph(){
 		
@@ -40,6 +43,7 @@ public class MapGraph<T extends Valuable> {
 				for(int col=0; col<this.getColumns();col++){
 					int rgbColor = coloredImage.getRGB(col, row);
 					T pixelValuable = (T)new PixelValuable(rgbColor * -1);
+					this.addPoint(pixelValuable,row, col);
 					Node<T> node = new Node<T>(pixelValuable, row,col);
 					this.getMatrix()[row][col] = node;
 				}
@@ -51,6 +55,18 @@ public class MapGraph<T extends Valuable> {
 		}
 	}
 	
+	private void addPoint(Valuable valuable, int row, int column) {
+		if(valuable.value()!=16777216)
+		{
+			List<Point> points = this.getColorsMap().get(valuable.value());
+			if(points==null){
+				points=new ArrayList<Point>();
+				this.getColorsMap().put(valuable.value(), points);
+			}
+			points.add(new Point(column, row));
+		}		
+	}
+
 	public MapGraph(BufferedImage coloredImage){
 		try {
 			this.setRows(coloredImage.getHeight());
@@ -113,10 +129,6 @@ public class MapGraph<T extends Valuable> {
 		{
 			for(int col=0; col<this.getColumns(); col++){
 				Node<T> node = this.getMatrix()[row][col];
-				
-				if(col==48 && row==81){
-					System.out.println("");
-				}
 
 				if(col>0 && !this.isCellOccupied(row,col-1)){
 					node.setHasLeftAdjacency(true);
@@ -275,5 +287,13 @@ public class MapGraph<T extends Valuable> {
 
 	public void setMatrix(Node<T>[][] matrix) {
 		this.matrix = matrix;
+	}
+
+	public Map<Integer, List<Point>> getColorsMap() {
+		return colorsMap;
+	}
+
+	public void setColorsMap(Map<Integer, List<Point>> colorsMap) {
+		this.colorsMap = colorsMap;
 	}	
 }
