@@ -125,13 +125,16 @@ public class MapGraph<T extends Valuable> {
 			}
 		}
 	
+		List<Node<T>> teleTransportNodes = new ArrayList<Node<T>>();
+		
 		for(int row=0; row<this.getRows(); row++)
 		{
-			for(int col=0; col<this.getColumns(); col++){
+			for(int col=0; col<this.getColumns(); col++){	
 				Node<T> node = this.getMatrix()[row][col];
 
 				if(col>0 && !this.isCellOccupied(row,col-1)){
 					node.setHasLeftAdjacency(true);
+					node.setLeftAdjacency(this.getMatrix()[row][col-1]);
 					node.addAdjancency(this.getMatrix()[row][col-1]);
 				}
 				if(row>0 && !this.isCellOccupied(row-1,col)){
@@ -140,18 +143,66 @@ public class MapGraph<T extends Valuable> {
 				}
 				if(col<columns-1 && !this.isCellOccupied(row,col+1)){
 					node.setHasRightAdjacency(true);
+					node.setRightAdjacency(this.getMatrix()[row][col+1]);
 					node.addAdjancency(this.getMatrix()[row][col+1]);
 				}
 				if(row<rows-1 && !this.isCellOccupied(row+1,col)){
 					node.setHasDownAdjacency(true);
 					node.addAdjancency(this.getMatrix()[row+1][col]);
 				}
+				if(this.isTeletransportNode(node)){
+					teleTransportNodes.add(node);
+				}
 			}
 		}
+		
+		this.calcTeletransportationNodesAdjacencies(teleTransportNodes);
+		
+	}
+	
+	private void calcTeletransportationNodesAdjacencies(List<Node<T>> teletransportNodes){
+		Node<T> leftTeletransportNode = this.obtainLeftTeletransport(teletransportNodes);
+		Node<T> rightTeletransportNode = this.obtainRightTeletransport(teletransportNodes);
+		
+		
+		if(leftTeletransportNode!=null && rightTeletransportNode!=null){
+			leftTeletransportNode.setHasLeftAdjacency(true);
+			leftTeletransportNode.getElement().changeValue(1);
+			leftTeletransportNode.addAdjancency(rightTeletransportNode);
+			leftTeletransportNode.setLeftAdjacency(rightTeletransportNode);
+			rightTeletransportNode.setHasRightAdjacency(true);
+			rightTeletransportNode.getElement().changeValue(1);
+			rightTeletransportNode.addAdjancency(leftTeletransportNode);
+			rightTeletransportNode.setRightAdjacency(leftTeletransportNode);
+		}
+		
+	}
+
+
+	private Node<T> obtainRightTeletransport(List<Node<T>> teletransportNodes) {
+		for(Node<T> node : teletransportNodes){
+			if(node.getColumn()<this.getColumns()-1 && this.isCellOccupied((int)node.getRow(),(int)node.getColumn()+1)){
+				return node;
+			}
+		}
+		return null;
+	}
+
+	private Node<T> obtainLeftTeletransport(List<Node<T>> teletransportNodes) {
+		for(Node<T> node : teletransportNodes){
+			if(node.getColumn()>0 && this.isCellOccupied((int)node.getRow(),(int)node.getColumn()-1)){
+				return node;
+			}
+		}
+		return null;
+	}
+
+	private boolean isTeletransportNode(Node<T> node) {
+		return node.getElement().value()==1237980;
 	}
 
 	private boolean isCellOccupied(int i, int j) {
-		return this.getMatrix()[i][j]!=null && this.getMatrix()[i][j].getElement()!=null && this.getMatrix()[i][j].getElement().value()>1;
+		return this.getMatrix()[i][j]!=null && this.getMatrix()[i][j].getElement()!=null && (this.getMatrix()[i][j].getElement().value()>1 && this.getMatrix()[i][j].getElement().value()!= 1237980);
 	}
 
 	public void computePaths(Node<T> sourceNode){

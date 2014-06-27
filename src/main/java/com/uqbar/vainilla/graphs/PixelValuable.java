@@ -21,4 +21,9 @@ public class PixelValuable implements Valuable {
 		this.color = color;
 	}
 
+	@Override
+	public void changeValue(int value) {
+		this.setColor(value);		
+	}
+
 }

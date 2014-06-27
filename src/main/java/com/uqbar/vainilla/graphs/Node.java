@@ -17,6 +17,8 @@ public class Node<T extends Valuable> implements Comparable<Node<T>>{
 	private boolean hasDownAdjacency = false;
 	private boolean hasRightAdjacency = false;
 	private boolean hasLeftAdjacency = false;
+	private Node<T> leftAdjacency = null;
+	private Node<T> rightAdjacency = null;
 	
 	public Node(){
 		
@@ -158,6 +160,22 @@ public class Node<T extends Valuable> implements Comparable<Node<T>>{
 
 	public void setHasLeftAdjacency(boolean hasLeftAdjacency) {
 		this.hasLeftAdjacency = hasLeftAdjacency;
+	}
+
+	public Node<T> getLeftAdjacency() {
+		return leftAdjacency;
+	}
+
+	public void setLeftAdjacency(Node<T> leftAdjacency) {
+		this.leftAdjacency = leftAdjacency;
+	}
+
+	public Node<T> getRightAdjacency() {
+		return rightAdjacency;
+	}
+
+	public void setRightAdjacency(Node<T> rightAdjacency) {
+		this.rightAdjacency = rightAdjacency;
 	}
 
 }
