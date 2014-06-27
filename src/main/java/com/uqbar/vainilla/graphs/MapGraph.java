@@ -139,6 +139,7 @@ public class MapGraph<T extends Valuable> {
 				}
 				if(row>0 && !this.isCellOccupied(row-1,col)){
 					node.setHasUpAdjacency(true);
+					node.setUpAdjacency(this.getMatrix()[row-1][col]);
 					node.addAdjancency(this.getMatrix()[row-1][col]);
 				}
 				if(col<columns-1 && !this.isCellOccupied(row,col+1)){
@@ -148,6 +149,7 @@ public class MapGraph<T extends Valuable> {
 				}
 				if(row<rows-1 && !this.isCellOccupied(row+1,col)){
 					node.setHasDownAdjacency(true);
+					node.setDownAdjacency(this.getMatrix()[row+1][col]);
 					node.addAdjancency(this.getMatrix()[row+1][col]);
 				}
 				if(this.isTeletransportNode(node)){
