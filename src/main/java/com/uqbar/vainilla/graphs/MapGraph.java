@@ -79,6 +79,7 @@ public class MapGraph<T extends Valuable> {
 				for(int col=0; col<this.getColumns();col++){
 					int rgbColor = coloredImage.getRGB(col, row);
 					T pixelValuable = (T)new PixelValuable(rgbColor * -1);
+					this.addPoint(pixelValuable,row, col);
 					Node<T> node = new Node<T>(pixelValuable, row,col);
 					this.getMatrix()[row][col] = node;
 				}
@@ -200,7 +201,7 @@ public class MapGraph<T extends Valuable> {
 	}
 
 	private boolean isTeletransportNode(Node<T> node) {
-		return node.getElement().value()==1237980;
+		return node!=null && node.getElement()!=null && node.getElement().value()==1237980;
 	}
 
 	private boolean isCellOccupied(int i, int j) {
