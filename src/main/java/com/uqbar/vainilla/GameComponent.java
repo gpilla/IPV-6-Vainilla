@@ -2,6 +2,7 @@ package com.uqbar.vainilla;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
+
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D.Double;
 
@@ -9,9 +10,10 @@ import com.uqbar.vainilla.appearances.Appearance;
 import com.uqbar.vainilla.appearances.Invisible;
 import com.uqbar.vainilla.appearances.Rectangle;
 import com.uqbar.vainilla.colissions.CollisionDetector;
+import com.uqbar.vainilla.utils.Observer;
 import com.uqbar.vainilla.utils.ResourceUtil;
 
-public class GameComponent<SceneType extends GameScene> {
+public class GameComponent<SceneType extends GameScene> implements Observer {
 
 	private SceneType scene;
 	private Appearance appearance;
@@ -260,6 +262,11 @@ public class GameComponent<SceneType extends GameScene> {
 	public void setPosition(Double spawnPoint) {
 		this.setX(spawnPoint.getX() - this.getHeight() / 2);
 		this.setY(spawnPoint.getY() - this.getWidth() / 2);
+	}
+
+	@Override
+	public void updateStatus() {
+
 	}
 	
 }

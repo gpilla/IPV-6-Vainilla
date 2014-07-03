@@ -122,8 +122,8 @@ public abstract class GameScene {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addComponent(GameComponent component) {
 		this.getComponents().add(this.indexToInsert(component), component);
-
 		component.setScene(this);
+		component.updateStatus();
 	}
 
 	public void addComponents(GameComponent<?>... components) {
@@ -140,8 +140,8 @@ public abstract class GameScene {
 
 	public void removeComponent(GameComponent<?> component) {
 		this.getComponents().remove(component);
-
 		component.setScene(null);
+		component.updateStatus();
 	}
 
 	public void removeComponents(GameComponent<?>... components) {

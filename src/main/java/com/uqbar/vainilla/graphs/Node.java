@@ -26,8 +26,10 @@ public class Node<T extends Valuable> implements Comparable<Node<T>>{
 		
 	}
 	
-	public Node(String keyName){
+	public Node(String keyName,int row, int column){
 		this.setKeyName(keyName);
+		this.setColumn(column);
+		this.setRow(row);
 	}
 	
 	public Node(T element, int row, int column)

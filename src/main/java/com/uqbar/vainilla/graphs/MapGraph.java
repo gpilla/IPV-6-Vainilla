@@ -67,6 +67,7 @@ public class MapGraph<T extends Valuable> {
 		}		
 	}
 
+	@SuppressWarnings("unchecked")
 	public MapGraph(BufferedImage coloredImage){
 		try {
 			this.setRows(coloredImage.getHeight());
@@ -103,10 +104,10 @@ public class MapGraph<T extends Valuable> {
 	@SuppressWarnings("unchecked")
 	private Node<T>[][] initMatrix() {
 		this.matrix = (Node<T>[][])Array.newInstance(Node.class, this.getRows(),this.getColumns());
-		for(int i=0; i<this.getRows(); i++)
+		for(int row=0; row<this.getRows(); row++)
 		{
-			for(int j=0; j<this.getColumns(); j++){
-				matrix[i][j] = new Node<T>(i + "," + j);
+			for(int column=0; column<this.getColumns(); column++){
+				matrix[row][column] = new Node<T>(row + "," + column,row,column);
 			}
 		}
 		this.calcAdjancencies();
@@ -232,15 +233,17 @@ public class MapGraph<T extends Valuable> {
 	
     public List<Node<T>> getShortestPath(Node<T> source,Node<T> target)
     {
-    	this.computePaths(source);
-        List<Node<T>> path = new ArrayList<Node<T>>();
-        for (Node<T> vertex = target; vertex != null ; vertex = vertex.getPrevious()){
-        	if(vertex!=source){
-        		path.add(vertex);
-        	}
-        }
-            
-        Collections.reverse(path);
+    	List<Node<T>> path = new ArrayList<Node<T>>();
+    	if(!source.equals(target)){
+	    	this.computePaths(source);
+	        for (Node<T> vertex = target; vertex != null ; vertex = vertex.getPrevious()){
+	        	if(vertex!=source){
+	        		path.add(vertex);
+	        	}
+	        }
+	            
+	        Collections.reverse(path);
+    	}
         return path;
     }
 	
@@ -299,7 +302,13 @@ public class MapGraph<T extends Valuable> {
 		return new Double(x, y);
 	}
 	
-
+	public double obtainRealXPosition(int colNumber){
+		return this.obtainHorizontalStep() * colNumber;
+	}
+	
+	public double obtainRealYPosition(int rowNumber){
+		return this.obtainVerticalStep() * rowNumber;
+	}
 	
 	
 	public double obtainHorizontalStep(){
