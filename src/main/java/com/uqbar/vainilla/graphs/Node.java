@@ -60,6 +60,10 @@ public class Node<T extends Valuable> implements Comparable<Node<T>>{
 
 	public void cleanAdjacencies() {
 		this.getAdjancencies().clear();
+		this.setHasDownAdjacency(false);
+		this.setHasLeftAdjacency(false);
+		this.setHasDownAdjacency(false);
+		this.setHasRightAdjacency(false);
 	}
 	
 	public T getElement() {

@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
 import com.uqbar.vainilla.utils.ClassLoaderResourcesProvider;
 
 public class MapGraph<T extends Valuable> {
-	private Node<T> matrix[][];
+	private Node<Valuable> matrix[][];
 	private int rows = 0;
 	private int columns = 0;
 	private double width = 0;
@@ -37,14 +37,14 @@ public class MapGraph<T extends Valuable> {
 			this.setColumns(coloredImage.getWidth());
 			this.setHeight(coloredImage.getHeight());
 			this.setWidth(coloredImage.getWidth());
-			this.matrix = (Node<T>[][])Array.newInstance(Node.class, this.getRows(),this.getColumns());
+			this.matrix = (Node<Valuable>[][])Array.newInstance(Node.class, this.getRows(),this.getColumns());
 			
 			for(int row = 0;row<this.getRows();row++){
 				for(int col=0; col<this.getColumns();col++){
 					int rgbColor = coloredImage.getRGB(col, row);
 					T pixelValuable = (T)new PixelValuable(rgbColor * -1);
 					this.addPoint(pixelValuable,row, col);
-					Node<T> node = new Node<T>(pixelValuable, row,col);
+					Node<Valuable> node = new Node<Valuable>(pixelValuable, row,col);
 					this.getMatrix()[row][col] = node;
 				}
 			}
@@ -74,14 +74,14 @@ public class MapGraph<T extends Valuable> {
 			this.setColumns(coloredImage.getWidth());
 			this.setHeight(coloredImage.getHeight());
 			this.setWidth(coloredImage.getWidth());
-			this.matrix = (Node<T>[][])Array.newInstance(Node.class, this.getRows(),this.getColumns());
+			this.matrix = (Node<Valuable>[][])Array.newInstance(Node.class, this.getRows(),this.getColumns());
 			
 			for(int row = 0;row<this.getRows();row++){
 				for(int col=0; col<this.getColumns();col++){
 					int rgbColor = coloredImage.getRGB(col, row);
-					T pixelValuable = (T)new PixelValuable(rgbColor * -1);
+					Valuable pixelValuable = new PixelValuable(rgbColor * -1);
 					this.addPoint(pixelValuable,row, col);
-					Node<T> node = new Node<T>(pixelValuable, row,col);
+					Node<Valuable> node = new Node<Valuable>(pixelValuable, row,col);
 					this.getMatrix()[row][col] = node;
 				}
 			}
@@ -102,12 +102,13 @@ public class MapGraph<T extends Valuable> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private Node<T>[][] initMatrix() {
-		this.matrix = (Node<T>[][])Array.newInstance(Node.class, this.getRows(),this.getColumns());
+	private Node<Valuable>[][] initMatrix() {
+		this.matrix = (Node<Valuable>[][])Array.newInstance(Node.class, this.getRows(),this.getColumns());
 		for(int row=0; row<this.getRows(); row++)
 		{
 			for(int column=0; column<this.getColumns(); column++){
-				matrix[row][column] = new Node<T>(row + "," + column,row,column);
+				Valuable valuable = new BasicValuable(1);
+				matrix[row][column] = new Node<Valuable>(valuable,row,column);
 			}
 		}
 		this.calcAdjancencies();
@@ -120,19 +121,19 @@ public class MapGraph<T extends Valuable> {
 		for(int i=0; i<this.getRows(); i++)
 		{
 			for(int j=0; j<this.getColumns(); j++){
-				Node<T> node = this.getMatrix()[i][j];
+				Node<Valuable> node = this.getMatrix()[i][j];
 				if(node!=null){
 					node.cleanAdjacencies();
 				}
 			}
 		}
 	
-		List<Node<T>> teleTransportNodes = new ArrayList<Node<T>>();
+		List<Node<Valuable>> teleTransportNodes = new ArrayList<Node<Valuable>>();
 		
 		for(int row=0; row<this.getRows(); row++)
 		{
 			for(int col=0; col<this.getColumns(); col++){	
-				Node<T> node = this.getMatrix()[row][col];
+				Node<Valuable> node = this.getMatrix()[row][col];
 
 				if(col>0 && !this.isCellOccupied(row,col-1)){
 					node.setHasLeftAdjacency(true);
@@ -164,9 +165,9 @@ public class MapGraph<T extends Valuable> {
 		
 	}
 	
-	private void calcTeletransportationNodesAdjacencies(List<Node<T>> teletransportNodes){
-		Node<T> leftTeletransportNode = this.obtainLeftTeletransport(teletransportNodes);
-		Node<T> rightTeletransportNode = this.obtainRightTeletransport(teletransportNodes);
+	private void calcTeletransportationNodesAdjacencies(List<Node<Valuable>> teletransportNodes){
+		Node<Valuable> leftTeletransportNode = this.obtainLeftTeletransport(teletransportNodes);
+		Node<Valuable> rightTeletransportNode = this.obtainRightTeletransport(teletransportNodes);
 		
 		
 		if(leftTeletransportNode!=null && rightTeletransportNode!=null){
@@ -183,8 +184,8 @@ public class MapGraph<T extends Valuable> {
 	}
 
 
-	private Node<T> obtainRightTeletransport(List<Node<T>> teletransportNodes) {
-		for(Node<T> node : teletransportNodes){
+	private Node<Valuable> obtainRightTeletransport(List<Node<Valuable>> teletransportNodes) {
+		for(Node<Valuable> node : teletransportNodes){
 			if(node.getColumn()<this.getColumns()-1 && this.isCellOccupied((int)node.getRow(),(int)node.getColumn()+1)){
 				return node;
 			}
@@ -192,8 +193,8 @@ public class MapGraph<T extends Valuable> {
 		return null;
 	}
 
-	private Node<T> obtainLeftTeletransport(List<Node<T>> teletransportNodes) {
-		for(Node<T> node : teletransportNodes){
+	private Node<Valuable> obtainLeftTeletransport(List<Node<Valuable>> teletransportNodes) {
+		for(Node<Valuable> node : teletransportNodes){
 			if(node.getColumn()>0 && this.isCellOccupied((int)node.getRow(),(int)node.getColumn()-1)){
 				return node;
 			}
@@ -201,7 +202,7 @@ public class MapGraph<T extends Valuable> {
 		return null;
 	}
 
-	private boolean isTeletransportNode(Node<T> node) {
+	private boolean isTeletransportNode(Node<Valuable> node) {
 		return node!=null && node.getElement()!=null && node.getElement().value()==1237980;
 	}
 
@@ -209,18 +210,18 @@ public class MapGraph<T extends Valuable> {
 		return this.getMatrix()[i][j]!=null && this.getMatrix()[i][j].getElement()!=null && (this.getMatrix()[i][j].getElement().value()>1 && this.getMatrix()[i][j].getElement().value()!= 1237980);
 	}
 
-	public void computePaths(Node<T> sourceNode){
-		PriorityQueue<Node<T>> nodeQueue = new PriorityQueue<Node<T>>();
+	public synchronized void computePaths(Node<Valuable> sourceNode){
+		PriorityQueue<Node<Valuable>> nodeQueue = new PriorityQueue<Node<Valuable>>();
 		sourceNode.setMinDistance(0);
 		nodeQueue.add(sourceNode);
 		while (!nodeQueue.isEmpty()) {
-			Node<T> node = nodeQueue.poll();
+			Node<Valuable> node = nodeQueue.poll();
 
-            for (Edge<T> e : node.getAdjancencies())
+            for (Edge<Valuable> e : node.getAdjancencies())
             {
-            	Node<T> target = e.getDestination();
+            	Node<Valuable> target = e.getDestination();
                 double weight = e.getWeight();
-                double distanceThroughNode = node.getMinDistance() + weight;
+                double distanceThroughNode =node.getMinDistance() + weight;
 				if (distanceThroughNode < target.getMinDistance()) {
 				    nodeQueue.remove(target);
 				    target.setMinDistance(distanceThroughNode);
@@ -231,12 +232,12 @@ public class MapGraph<T extends Valuable> {
        }
 	}
 	
-    public List<Node<T>> getShortestPath(Node<T> source,Node<T> target)
+    public synchronized List<Node<Valuable>> getShortestPath(Node<Valuable> source,Node<Valuable> target)
     {
-    	List<Node<T>> path = new ArrayList<Node<T>>();
+    	List<Node<Valuable>> path = new ArrayList<Node<Valuable>>();
     	if(!source.equals(target)){
 	    	this.computePaths(source);
-	        for (Node<T> vertex = target; vertex != null ; vertex = vertex.getPrevious()){
+	        for (Node<Valuable> vertex = target; vertex != null ; vertex = vertex.getPrevious()){
 	        	if(vertex!=source){
 	        		path.add(vertex);
 	        	}
@@ -250,9 +251,10 @@ public class MapGraph<T extends Valuable> {
 	public boolean addNode(double x, double y, T element){
 		int col = this.obtainColNumber(x);
 		int row = this.obtainRowNumber(y);
-		Node<T> node = this.getMatrix()[row][col];
-		if(node==null || node.getElement()==null  ){
-			node = new Node<T>(element, row + "-" + col);
+		
+		Node<Valuable> node = this.getMatrix()[row][col];
+		if(node==null || node.getElement()==null || node.getElement().value()<=1){
+			node = new Node<Valuable>(element, row + "-" + col);
 			this.getMatrix()[row][col] = node;
 			this.calcAdjancencies();
 			return true;
@@ -261,14 +263,27 @@ public class MapGraph<T extends Valuable> {
 		}
 	}
 	
+	public boolean addNode(int row, int column, T element){
+		
+		Node<Valuable> node = this.getMatrix()[row][column];
+		if(node==null || node.getElement()==null  ){
+			node = new Node<Valuable>(element, row + "-" + column);
+			this.getMatrix()[row][column] = node;
+			this.calcAdjancencies();
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
-	public Node<T> obtainNode(double x, double y){
+	
+	public Node<Valuable> obtainNode(double x, double y){
 		int col = this.obtainColNumber(x);
 		int row = this.obtainRowNumber(y);
 		return this.getMatrix()[row][col];
 	}
 	
-	public Node<T> obtainNode(int row, int col){
+	public Node<Valuable> obtainNode(int row, int col){
 		return this.getMatrix()[row][col];
 	}
 	
@@ -344,11 +359,11 @@ public class MapGraph<T extends Valuable> {
 		this.height = height;
 	}
 
-	public Node<T>[][] getMatrix() {
+	public Node<Valuable>[][] getMatrix() {
 		return matrix;
 	}
 
-	public void setMatrix(Node<T>[][] matrix) {
+	public void setMatrix(Node<Valuable>[][] matrix) {
 		this.matrix = matrix;
 	}
 

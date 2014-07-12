@@ -9,6 +9,7 @@ import org.mockito.runners.VerboseMockitoJUnitRunner;
 import com.uqbar.vainilla.graphs.MapGraph;
 import com.uqbar.vainilla.graphs.Node;
 import com.uqbar.vainilla.graphs.PixelValuable;
+import com.uqbar.vainilla.graphs.Valuable;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ public class MapGraphTest {
 	@Test
 	public void integration_LoadFromIMage(){
 		MapGraph<PixelValuable> mapGraph = new MapGraph<PixelValuable>("mapa1.png");
-		Node<PixelValuable> source = mapGraph.obtainNode(10, 10);
-		Node<PixelValuable> destination = mapGraph.obtainNode(41,36);
-		List<Node<PixelValuable>> path = mapGraph.getShortestPath(source, destination);
+		Node<Valuable> source = mapGraph.obtainNode(10, 10);
+		Node<Valuable> destination = mapGraph.obtainNode(41,36);
+		List<Node<Valuable>> path = mapGraph.getShortestPath(source, destination);
 		System.out.println(path);
 		assertTrue(mapGraph!=null);
 	}
@@ -122,8 +123,8 @@ public class MapGraphTest {
 		MapGraph<PixelValuable> mapGraph = new MapGraph<PixelValuable>(45,50,500,800);
 		PixelValuable expectedNodeElement = new PixelValuable(1);
 		boolean result = mapGraph.addNode(25, 18, expectedNodeElement);
-		Node<PixelValuable> actualNode = mapGraph.obtainNode((double)25, (double)18);
-		PixelValuable actualNodeElement = actualNode.getElement();
+		Node<Valuable> actualNode = mapGraph.obtainNode((double)25, (double)18);
+		Valuable actualNodeElement = actualNode.getElement();
 		assertEquals(true, result);
 		assertEquals(expectedNodeElement,actualNodeElement);
 	}
@@ -145,9 +146,9 @@ public class MapGraphTest {
 		mapGraph.addNode(15, 25, new PixelValuable(10000));
 		mapGraph.addNode(25, 25, new PixelValuable(10000));
 		mapGraph.addNode(35, 25, new PixelValuable(10000));
-		Node<PixelValuable> source = mapGraph.obtainNode(0, 0);
-		Node<PixelValuable> destination = mapGraph.obtainNode(5, 5);
-		List<Node<PixelValuable>> path = mapGraph.getShortestPath(source, destination);
+		Node<Valuable> source = mapGraph.obtainNode(0, 0);
+		Node<Valuable> destination = mapGraph.obtainNode(5, 5);
+		List<Node<Valuable>> path = mapGraph.getShortestPath(source, destination);
 		System.out.println(path);
 
 	}
