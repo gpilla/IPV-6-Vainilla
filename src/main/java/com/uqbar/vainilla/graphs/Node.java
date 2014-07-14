@@ -202,4 +202,5 @@ public class Node<T extends Valuable> implements Comparable<Node<T>>{
 		this.downAdjacency = downAdjacency;
 	}
 
+	
 }

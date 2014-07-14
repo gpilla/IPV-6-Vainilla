@@ -223,7 +223,7 @@ public class GameComponent<SceneType extends GameScene> implements Observer {
 			return CollisionDetector.INSTANCE.collidesPointAgainstSquare(point.getX(), point.getY(), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		}
 		return false;
-	}
+	}	
 	
 	protected double getIntPropertyFromConfig(String resource) {
 		return ResourceUtil.getResourceInt(this.getClass().getSimpleName() + "." + resource);

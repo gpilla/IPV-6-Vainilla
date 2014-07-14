@@ -21,8 +21,8 @@ abstract public class AbstractImageMapParser extends AbstractMapParser {
 			throw new GameException("The resource '" + file
 					+ "' was not found using " + defaultResourceProvider.getClass().getName(), e);
 		}
-		System.out.println("Altura" + this.getHeight() );
-		System.out.println("Anchura" + this.getWidth() );
+//		System.out.println("Altura" + this.getHeight() );
+//		System.out.println("Anchura" + this.getWidth() );
 	}
 	
 	public int getWidth() {
@@ -40,7 +40,6 @@ abstract public class AbstractImageMapParser extends AbstractMapParser {
 		} catch (Exception e) {
 			System.out.println(x + ";" + y);
 		}
-		
 		return color;
 		
 	}

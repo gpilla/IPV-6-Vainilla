@@ -53,7 +53,7 @@ public class AbstractCounter<SceneType extends GameScene> extends GameComponent<
 	}
 	
 	public void removeToValue(double points) {
-		this.value += points;
+		this.value -= points;
 	}
 	
 	public String getDescription() {

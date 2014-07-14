@@ -33,10 +33,15 @@ public class MapGraph<T extends Valuable> {
 		BufferedImage coloredImage;
 		try {
 			coloredImage = ImageIO.read(new ClassLoaderResourcesProvider().getResource(coloredImagePath));
+			
 			this.setRows(coloredImage.getHeight());
+			System.out.println("Rows:" + this.getRows());
 			this.setColumns(coloredImage.getWidth());
-			this.setHeight(coloredImage.getHeight());
-			this.setWidth(coloredImage.getWidth());
+			System.out.println("Cols:" + this.getColumns());
+			//this.setHeight(coloredImage.getHeight());
+			this.setHeight(700);
+			//this.setWidth(coloredImage.getWidth());
+			this.setWidth(1000);
 			this.matrix = (Node<Valuable>[][])Array.newInstance(Node.class, this.getRows(),this.getColumns());
 			
 			for(int row = 0;row<this.getRows();row++){
@@ -72,8 +77,11 @@ public class MapGraph<T extends Valuable> {
 		try {
 			this.setRows(coloredImage.getHeight());
 			this.setColumns(coloredImage.getWidth());
-			this.setHeight(coloredImage.getHeight());
-			this.setWidth(coloredImage.getWidth());
+			System.out.println("MapGraph:" + this.getRows() + ";" + this.getColumns());
+			//this.setHeight(coloredImage.getHeight());
+			this.setHeight(700);
+			//this.setWidth(coloredImage.getWidth());
+			this.setWidth(1000);
 			this.matrix = (Node<Valuable>[][])Array.newInstance(Node.class, this.getRows(),this.getColumns());
 			
 			for(int row = 0;row<this.getRows();row++){
@@ -349,12 +357,15 @@ public class MapGraph<T extends Valuable> {
 	protected double getWidth() {
 		return width;
 	}
+	
 	protected void setWidth(double width) {
 		this.width = width;
 	}
+	
 	protected double getHeight() {
 		return height;
 	}
+	
 	protected void setHeight(double height) {
 		this.height = height;
 	}
